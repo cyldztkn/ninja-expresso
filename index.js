@@ -1,15 +1,14 @@
-// HTTP modülünü dahil et
-const http = require("http");
+const http = require('http');
 
 // Sunucu oluştur
 const server = http.createServer((req, res) => {
-  res.statusCode = 200; // HTTP yanıt kodu: 200 (Başarılı)
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Hello Ninja Expresso!"); // Yanıt metni
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Merhaba Ninja Expresso!');
 });
 
-// Sunucu belirli bir portta dinlemeye başlar
-const PORT = process.env.PORT || 3000;
+// Sunucuyu belirli bir portta dinlet
+const PORT = 3000;
 server.listen(PORT, () => {
-  console.log(`Sunucu çalışıyor: http://localhost:${PORT}`);
+  console.log(`Sunucu http://localhost:${PORT} adresinde çalışıyor.`);
 });
