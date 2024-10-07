@@ -11,7 +11,7 @@
     <script>
       let buttonEl = document.getElementById("buton");
       buttonEl.addEventListener('click', ()=> {
-        fetch('http://localhost:3000/').then(res => console.log(res))
+        fetch('http://localhost:3000/').then(res => res.json()).then(res => console.log(res))
       })
     </script>
   </body>
