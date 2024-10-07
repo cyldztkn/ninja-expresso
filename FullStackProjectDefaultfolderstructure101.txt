@@ -1,0 +1,30 @@
+ninja-expresso/
+│
+├── backend/            # Backend ile ilgili tüm dosyalar
+│   ├── controllers/    # API endpoint işleyicileri
+│   ├── models/         # Veritabanı modelleri (Mongoose, Sequelize, vb.)
+│   ├── routes/         # Express.js route dosyaları
+│   ├── middlewares/    # Özel middleware'ler
+│   ├── config/         # Ortam değişkenleri ve yapılandırma dosyaları
+│   ├── utils/          # Yardımcı fonksiyonlar ve araçlar
+│   ├── app.js          # Express.js sunucu kurulum dosyası
+│   └── server.js       # Sunucuyu başlatan dosya
+│
+├── frontend/           # Frontend ile ilgili tüm dosyalar
+│   ├── src/            # React/Next.js kaynak kodları
+│   │   ├── components/ # Reusable bileşenler (butonlar, formlar, vb.)
+│   │   ├── pages/      # Sayfalar (Next.js için)
+│   │   ├── hooks/      # Custom React hook'ları
+│   │   ├── styles/     # Stil dosyaları (CSS, SCSS, vb.)
+│   │   ├── services/   # API çağrıları ve servis dosyaları
+│   │   └── index.js    # Frontend giriş noktası
+│   └── public/         # Statik dosyalar (img, fonts, vb.)
+│
+├── .gitignore          # GitHub'da takip edilmeyecek dosyalar
+├── README.md           # Projeye dair açıklama dosyası
+├── package.json        # Proje bağımlılıkları ve betikler
+├── package-lock.json   # Projeye dair bağımlılık kilit dosyası
+├── nodemon.json        # Nodemon konfigürasyon dosyası (Geliştirme için)
+├── .env                # Ortam değişkenleri (örn. API anahtarları, DB url)
+└── docker-compose.yml  # Docker kompozisyon dosyası (eğer Docker kullanıyorsan)
+
