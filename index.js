@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-// 'output.txt' dosyasının sonuna veri ekle
-fs.appendFile('output.txt', '\nEklenen veri!', (err) => {
+// 'output.txt' dosyasını sil
+fs.unlink('delete.txt', (err) => {
   if (err) {
-    console.error('Veri eklenemedi:', err);
+    console.error('Dosya silinemedi:', err);
     return;
   }
-  console.log('Veri başarıyla eklendi!');
+  console.log('Dosya başarıyla silindi!');
 });
