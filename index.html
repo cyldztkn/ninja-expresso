@@ -7,12 +7,22 @@
   </head>
   <body>
     <button id="buton">Fetch Data</button>
+    <div id="output"></div>
 
     <script>
       let buttonEl = document.getElementById("buton");
-      buttonEl.addEventListener('click', ()=> {
-        fetch('http://localhost:3000/').then(res => res.json()).then(res => console.log(res))
-      })
+      let resultEl = document.getElementById("output");
+      let fetchStatus;
+      buttonEl.addEventListener("click", () => {
+        fetch("http://localhost:3000/")
+          .then((res) => {
+            fetchStatus = res.status;
+            return res.json();
+          })
+          .then((res) => {
+            resultEl.innerHTML = `Server'dan Gelen Cevap: ${res.message}<br>Status=${fetchStatus} `;
+          });
+      });
     </script>
   </body>
 </html>
