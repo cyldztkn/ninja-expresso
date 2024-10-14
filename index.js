@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-// 'output.txt' dosyasına yaz
-fs.writeFile('output.txt', 'Merhaba Ninja Expresso!', (err) => {
+// 'output.txt' dosyasının sonuna veri ekle
+fs.appendFile('output.txt', '\nEklenen veri!', (err) => {
   if (err) {
-    console.error('Dosya yazılamadı:', err);
+    console.error('Veri eklenemedi:', err);
     return;
   }
-  console.log('Dosya başarıyla yazıldı!');
+  console.log('Veri başarıyla eklendi!');
 });
