@@ -1,43 +1,47 @@
 const http = require("http");
+const fs = require("fs");
+const path = require("path");
 
-// Gerçek API anahtarını belirliyoruz
-const REAL_API_KEY = "örnekapikey";
-
+// Sunucuyu oluşturuyoruz
 const server = http.createServer((req, res) => {
-  // Preflight (OPTIONS) isteğini kontrol ediyoruz
-  if (req.method === 'OPTIONS') {
-    res.writeHead(204, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET',
-      'Access-Control-Allow-Headers': 'key',
-      'Access-Control-Max-Age': 86400 // Tarayıcının bu yanıtı 24 saat boyunca kullanmasına izin verir.
+  if (req.method === "POST" && req.url === "/upload") {
+    // Gelen dosyayı kaydetmek için bir yol belirliyoruz
+    const filePath = path.join(__dirname, "uploads", "uploaded_file.txt");
+
+    // Dosya yazmak için bir write stream oluşturuyoruz
+    const fileStream = fs.createWriteStream(filePath);
+
+    // Gelen veri parçalarını write stream'e yazıyoruz
+    req.on("data", (chunk) => {
+      fileStream.write(chunk);
     });
-    res.end();
-    return;
-  }
 
-  // İstekten gelen API anahtarını alıyoruz
-  const apikey = req.headers["key"];
+    // Veri transferi tamamlandığında
+    req.on("end", () => {
+      fileStream.end();
+      res.statusCode = 200;
+      res.setHeader("Content-Type", "application/json");
+      res.setHeader("Access-Control-Allow-Origin", "*"); // CORS için
+      res.end(JSON.stringify({ message: "Dosya başarıyla yüklendi!" }));
+    });
 
-  // Eğer API anahtarı doğru değilse, 401 hatası döndür
-  if (apikey !== REAL_API_KEY) {
-    res.statusCode = 401; // Unauthorized
+    // Hata olursa
+    req.on("error", (err) => {
+      console.error("Hata:", err);
+      res.statusCode = 500;
+      res.end(
+        JSON.stringify({ message: "Dosya yüklenirken bir hata oluştu." })
+      );
+    });
+  } else {
+    // Başka bir endpoint'e erişilirse 404 döneriz
+    res.statusCode = 404;
     res.setHeader("Content-Type", "application/json");
-    res.setHeader("Access-Control-Allow-Origin", "*"); // CORS başlığını ekliyoruz
-    res.end(JSON.stringify({ error: "Geçersiz API anahtarı" }));
-    return;
+    res.end(JSON.stringify({ message: "Endpoint bulunamadı." }));
   }
-
-  // API anahtarı doğru ise 200 OK ve veri döndür
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("Access-Control-Allow-Origin", "*"); // CORS başlığını ekliyoruz
-  res.end(
-    JSON.stringify({ message: "API anahtarı doğrulandı, veriler burada!" })
-  );
 });
 
-// Sunucuyu belirli bir portta dinlet
+// Sunucuyu belirli bir portta dinletiyoruz
 const PORT = 3000;
 server.listen(PORT, () => {
   console.log(`Sunucu http://localhost:${PORT} adresinde çalışıyor.`);

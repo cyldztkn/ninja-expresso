@@ -1,0 +1,6 @@
+------WebKitFormBoundaryng2eklh5JjWMcWCC
+Content-Disposition: form-data; name="file"; filename="deneme.txt"
+Content-Type: text/plain
+
+Deneme
+------WebKitFormBoundaryng2eklh5JjWMcWCC--

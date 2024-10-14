@@ -40,48 +40,30 @@
     </style>
   </head>
   <body>
-    <form id="form">
-      <label>
-        Api Key:
-        <input type="text" name="apikey" id="apikey" value="örnekapikey" />
-      </label>
-
-      <input type="submit" value="Fetch Data" />
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" id="fileInput" name="file" />
+      <input type="submit" value="Yükle" />
     </form>
     <div id="output"></div>
 
     <script>
-      let resultEl = document.getElementById("output");
-      let formEl = document.getElementById("form");
-
-      let submitHandler = (e) => {
+      document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        let apikey = new FormData(formEl).get("apikey");
-        fetchData(apikey);
-      };
-
-      formEl.addEventListener("submit", submitHandler);
-
-      let fetchData = async (apikey) => {
+        const fileInput = document.getElementById('fileInput');
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+  
         try {
-          const response = await fetch("http://localhost:3000/", {
-            headers: {
-              key: apikey,
-            },
+          const response = await fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData,
           });
-
-          const fetchStatus = response.status;
-
-          const beResponse = await response.json();
-
-          resultEl.innerHTML = `Server'dan Gelen Cevap: ${
-            beResponse.message || beResponse.error
-          }<br><br>Status=${fetchStatus}`;
-        } catch (err) {
-          console.error("Hata:", err);
-          resultEl.innerHTML = `Bir hata oluştu: ${err.message}`;
+          const result = await response.json();
+          document.getElementById('output').innerText = result.message;
+        } catch (error) {
+          console.error('Dosya yükleme hatası:', error);
         }
-      };
+      });
     </script>
   </body>
 </html>
