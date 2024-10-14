@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-// 'data.txt' dosyasını oku
-fs.readFile('data.txt', 'utf8', (err, data) => {
+// 'output.txt' dosyasına yaz
+fs.writeFile('output.txt', 'Merhaba Ninja Expresso!', (err) => {
   if (err) {
-    console.error('Dosya okunamadı:', err);
+    console.error('Dosya yazılamadı:', err);
     return;
   }
-  console.log('Dosya içeriği:', data);
+  console.log('Dosya başarıyla yazıldı!');
 });
