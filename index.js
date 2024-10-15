@@ -22,6 +22,20 @@ app.delete('/deleteExample', (req, res) => {
     res.send('DELETE isteği ile veri silindi');
 });
 
+
+// Route parametreleri: /user/1 gibi bir istek geldiğinde id'yi alır
+app.get('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  res.send(`Kullanıcı ID: ${userId}`);
+});
+
+// Query string: /search?keyword=express gibi bir istek geldiğinde keyword'ü alır
+app.get('/search', (req, res) => {
+  const keyword = req.query.keyword;
+  res.send(`Arama yapılan anahtar kelime: ${keyword}`);
+});
+
+
 app.listen(PORT, () => {
     console.log(`Sunucu ${PORT} portunda çalışıyor...`);
 });
