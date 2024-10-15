@@ -1,18 +1,19 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const PORT = 3000;
 const productRouter = express.Router();
+const colorRouter = express.Router();
 
-productRouter.get('/:id', (req, res) => {
-    res.send(`Ürün ID: ${req.params.id}`);
+productRouter.get('/:productId', (req, res) => {
+    res.send(`Ürün: ${req.params.productId}`);
 });
 
-productRouter.get('/:id/reviews', (req, res) => {
-    res.send(`Ürün ID: ${req.params.id} için yorumlar`);
+colorRouter.get('/:colorId/product/:productName', (req, res) => {
+    res.send(`Renk ID: ${req.params.colorId}, Ürün Adı: ${req.params.productName}`);
 });
 
 app.use('/product', productRouter);
+app.use('/color', colorRouter);
 
-app.listen(PORT, () => {
-  console.log(`Sunucu ${PORT} portunda çalışıyor...`);
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
 });
