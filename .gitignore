@@ -31,3 +31,5 @@ yarn.lock
 
 # Git bilgileri ve hook'lar
 .husky/
+
+

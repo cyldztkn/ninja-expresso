@@ -155,9 +155,42 @@
 
       let updateForm = async (e) => {
         e.preventDefault();
-        console.log(postId);
-        let url = `http://localhost:3000/post/${postId}`;
-        console.log(url);
+        let id = selectEl.value;
+        let url = `http://localhost:3000/post/${id}`;
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+          title: postTitleEl.value,
+          content: postContentEl.value,
+          authorId: postAuthorIdEl.value,
+        });
+
+        const requestOptions = {
+          method: "PATCH",
+          headers: myHeaders,
+          redirect: "follow",
+          body: raw,
+        };
+
+        try {
+          const confirmation = confirm("Post Güncellenecek Emin Misiniz?");
+          if (!confirmation) return; // Kullanıcı 'Hayır' derse işlemi durdur.
+
+          let response = await fetch(url, requestOptions);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          let result = await response.json();
+          alert("Post Güncellendi");
+          console.log("Güncellenen Post:", result);
+          resultEl.innerText = JSON.stringify(result, null, 2);
+        } catch (error) {
+          console.error("Güncelleme hatası:", error);
+          resultEl.innerText = `Hata: ${error.message}`;
+        }
       };
 
       let getNewData = async (x) => {
@@ -182,10 +215,40 @@
         getNewData(postId);
       };
       selectEl.addEventListener("change", changeId);
+
+      let getPostId = () => {
+        try {
+          fetch("http://localhost:3000/posts")
+            .then((res) => res.json())
+            .then((data) => {
+              selectEl.innerHTML = data.map(
+                (item) => `<option value="${item.id}">id: ${item.id}</option>`
+              );
+            });
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      getPostId();
+
       getNewData(postId);
 
-      let deleteThisPost = () => {
-        console.log("click delete post");
+      let deleteThisPost = async () => {
+        let id = selectEl.value;
+        let url = `http://localhost:3000/post/${id}`;
+        const requestOptions = {
+          method: "DELETE",
+          redirect: "follow",
+        };
+
+        try {
+          confirm("Post Silinecek Emin Misiniz?");
+          let promise = await fetch(url, requestOptions);
+          let response = await promise.text();
+          alert(response);
+        } catch (error) {
+          console.error(error);
+        }
       };
 
       formEl.addEventListener("submit", updateForm);

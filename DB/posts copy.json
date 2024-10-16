@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "title": "Post-One",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "authorId": 1
+    },
+    {
+      "id": 2,
+      "title": "Post Two",
+      "content": "ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "authorId": 2
+    },
+    {
+      "id": 3,
+      "title": "Post Three",
+      "content": "dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "authorId": 1
+    },
+    {
+      "id": 4,
+      "title": "Post Four",
+      "content": "sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "authorId": 3
+    },
+    {
+      "id": 5,
+      "title": "Post Five",
+      "content": "amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "authorId": 4
+    },
+    {
+      "id": 6,
+      "title": "Post Six",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "authorId": 2
+    }
+  ]
+  
