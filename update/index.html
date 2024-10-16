@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update</title>
+    <style>
+      body {
+        background-color: #dbdbdd;
+        form {
+          display: flex;
+          flex-direction: column;
+          margin: 0px auto;
+          gap: 24px;
+          width: 80%;
+          border: 1px solid #00000025;
+          border-radius: 4px;
+          padding: 12px;
+          input[type="text"],
+          textarea {
+            background-color: #dbdbdd;
+            outline: none;
+            border: 1px solid #00000025;
+            padding: 6px 12px;
+            border-radius: 4px;
+            width: 80%;
+          }
+          input[type="submit"] {
+            border-radius: 4px;
+            padding: 12px 12px;
+            background-color: #ffffff45;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #ffffff74;
+              box-shadow: 2px 2px 12px #00000028;
+            }
+          }
+          input[type="reset"] {
+            border-radius: 4px;
+            /* padding: 12px 12px; */
+            background-color: #ffffff45;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #ffffff74;
+              box-shadow: 2px 2px 12px #00000028;
+            }
+          }
+        }
+        .container {
+          border: 1px solid #00000025;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          padding: 40px 20px;
+          gap: 40px;
+        }
+        .result {
+          border: 1px solid #00000025;
+          flex: 1 1 60%;
+        }
+        h2 {
+          font-size: 16px;
+          color: #254829;
+        }
+      }
+      #result {
+        flex-direction: column;
+      }
+      label {
+        display: inline-flex;
+        min-width: 100%;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+      #delete-post {
+        border-radius: 4px;
+        padding: 12px 12px;
+        background-color: #fa818145;
+        border: none;
+        outline: none;
+        &:hover {
+          background-color: #f56f6f45;
+          box-shadow: 2px 2px 12px #00000028;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Update</h2>
+    <div class="container">
+      <select name="posts" id="posts-select">
+        <option value="1" selected>id: 1</option>
+        <option value="2">id: 2</option>
+        <option value="3">id: 3</option>
+        <option value="4">id: 4</option>
+        <option value="5">id: 5</option>
+        <option value="6">id: 6</option>
+        <option value="12">Olmayan id</option>
+      </select>
+      <button id="delete-post">Bu Postu Sil</button>
+    </div>
+    <h2>içerik</h2>
+    <div class="container" id="result">
+      <form id="post">
+        <label for="post-title">
+          Title:
+          <input
+            type="text"
+            name="post-title"
+            id="post-title"
+            value="Lorem, ipsum dolor."
+          />
+        </label>
+        <label for="post-content">
+          Content:
+          <textarea
+            name="post-content"
+            id="post-content"
+            rows="5"
+            resize="none"
+          >
+                Lorem ipsum dolor sit, amet consectetur adipisicing . Unde consequuntur eligendi beatae, tempora nobis in ut iusto consequatur ex maiores!</textarea
+          >
+        </label>
+        <label for="post-author">
+          Author ID
+          <input
+            type="text"
+            name="post-author"
+            id="post-author"
+            value="Lorem, ipsum dolor."
+          />
+        </label>
+        <input type="submit" value="Güncelle" />
+      </form>
+    </div>
+    <script>
+      let selectEl = document.getElementById("posts-select");
+      let postId = 1;
+      let formEl = document.getElementById("post");
+      let postTitleEl = document.getElementById("post-title");
+      let postContentEl = document.getElementById("post-content");
+      let postAuthorIdEl = document.getElementById("post-author");
+      let deletePostElement = document.getElementById("delete-post");
+
+      let createOutputElement = (data) => {
+        console.log("render fonlsiyonunun çalışacağı veri:", data);
+        postTitleEl.value = data.title;
+        postContentEl.innerText = data.content;
+        postAuthorIdEl.value = data.authorId;
+      };
+
+      let updateForm = async (e) => {
+        e.preventDefault();
+        console.log(postId);
+        let url = `http://localhost:3000/post/${postId}`;
+        console.log(url);
+      };
+
+      let getNewData = async (x) => {
+        try {
+          let url = `http://localhost:3000/post/${x}`;
+          let promise = await fetch(url);
+          console.log(promise);
+          let postInfo = await promise.json();
+          console.log(postInfo);
+          createOutputElement(postInfo);
+        } catch {
+          console.error("bir sorun oluştu");
+          postTitleEl.value = "böyle bir post yok!";
+          postContentEl.innerText = "böyle bir post yok!";
+          postAuthorIdEl.value = "böyle bir post yok!";
+        }
+      };
+
+      let changeId = () => {
+        postId = selectEl.value;
+        console.log("seçilen:", selectEl.value, "Selectid:", postId);
+        getNewData(postId);
+      };
+      selectEl.addEventListener("change", changeId);
+      getNewData(postId);
+
+      let deleteThisPost = () => {
+        console.log("click delete post");
+      };
+
+      formEl.addEventListener("submit", updateForm);
+      deletePostElement.addEventListener("click", deleteThisPost);
+    </script>
+  </body>
+</html>

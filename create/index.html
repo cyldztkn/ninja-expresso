@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create</title>
+    <style>
+      body {
+        background-color: #dbdbdd;
+        form {
+          display: flex;
+          flex-direction: column;
+          margin: 0px auto;
+          gap: 24px;
+          width: 80%;
+          border: 1px solid #00000025;
+          border-radius: 4px;
+          padding: 12px;
+          input[type="text"],
+          textarea {
+            background-color: #dbdbdd;
+            outline: none;
+            border: 1px solid #00000025;
+            padding: 6px 12px;
+            border-radius: 4px;
+            width: 80%;
+          }
+          input[type="submit"] {
+            border-radius: 4px;
+            padding: 12px 12px;
+            background-color: #ffffff45;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #ffffff74;
+              box-shadow: 2px 2px 12px #00000028;
+            }
+          }
+          input[type="reset"] {
+            border-radius: 4px;
+            /* padding: 12px 12px; */
+            background-color: #ffffff45;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #ffffff74;
+              box-shadow: 2px 2px 12px #00000028;
+            }
+          }
+        }
+        .container {
+          border: 1px solid #00000025;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          padding: 40px 20px;
+          gap: 40px;
+        }
+        .input-area {
+          border: 1px solid #00000025;
+          flex: 1 1 60%;
+        }
+        h2 {
+          font-size: 16px;
+          color: #254829;
+        }
+      }
+      #input-area {
+        flex-direction: column;
+      }
+      label {
+        display: inline-flex;
+        min-width: 100%;
+        gap: 20px;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+      #result{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 20px;
+        min-height: 20px;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Yeni İçerik ekle</h2>
+    <div class="container" id="input-area">
+      <form id="post">
+        <label for="post-title">
+          Title:
+          <input type="text" name="post-title" id="post-title" value="" />
+        </label>
+        <label for="post-content">
+          Content:
+          <textarea
+            name="post-content"
+            id="post-content"
+            rows="5"
+            resize="none"
+          ></textarea>
+        </label>
+        <label for="post-author">
+          Author ID
+          <input type="text" name="post-author" id="post-author" value="" />
+        </label>
+        <input type="submit" value="Güncelle" />
+      </form>
+    </div>
+    <div id="result"></div>
+    <script>
+      let formEl = document.getElementById("post");
+      let postTitleEl = document.getElementById("post-title");
+      let postContentEl = document.getElementById("post-content");
+      let postAuthorIdEl = document.getElementById("post-author");
+      let resultEl = document.getElementById("result");
+
+      let formHandler = async (e) => {
+        e.preventDefault();
+        console.log("submitted");
+        resultEl.innerHTML = "feedback"
+      };
+
+      formEl.addEventListener("submit", formHandler);
+    </script>
+  </body>
+</html>

@@ -16,7 +16,7 @@ const authors = [
 const posts = [
   {
     id: 1,
-    title: "Post One",
+    title: "Post-One",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
     authorId: 1,
@@ -25,28 +25,28 @@ const posts = [
     id: 2,
     title: "Post Two",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      " ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
     authorId: 2,
   },
   {
     id: 3,
     title: "Post Three",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
     authorId: 1,
   },
   {
     id: 4,
     title: "Post Four",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "sit amet, consectetur adipiscing elit. Sed do eiusmod.",
     authorId: 3,
   },
   {
     id: 5,
     title: "Post Five",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod.",
+      "amet, consectetur adipiscing elit. Sed do eiusmod.",
     authorId: 4,
   },
   {

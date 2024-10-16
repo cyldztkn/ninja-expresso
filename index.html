@@ -18,7 +18,7 @@
             border-radius: 4px;
             max-width: 30%;
           }
-          input[type="submit"]  {
+          input[type="submit"] {
             border-radius: 4px;
             /* padding: 12px 12px; */
             background-color: #ffffff45;
@@ -29,7 +29,7 @@
               box-shadow: 2px 2px 12px #00000028;
             }
           }
-          input[type="reset"]  {
+          input[type="reset"] {
             border-radius: 4px;
             /* padding: 12px 12px; */
             background-color: #ffffff45;
@@ -47,7 +47,7 @@
           align-items: flex-start;
           justify-content: space-between;
           padding: 40px 20px;
-          gap: 40px;
+          /* gap: 40px; */
         }
         .result {
           border: 1px solid #00000025;
@@ -57,6 +57,22 @@
           font-size: 16px;
           color: #254829;
         }
+        div.post {
+          border: 1px solid #00000025;
+          padding: 20px;
+          flex: 1 0 auto;
+          max-width: 20%;
+          border-radius: 4px;
+          span {
+            display: inline-flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 20px;
+          }
+        }
+      }
+      #all-post-container {
+        flex-wrap: wrap;
       }
     </style>
   </head>
@@ -65,62 +81,37 @@
     <div class="container">
       <form id="authors">
         <input type="submit" value="let's fetch" />
-        <input type="reset" value="Reset">
+        <input type="reset" value="Reset" />
       </form>
       <div class="result" id="authorRes">Fetch First</div>
     </div>
 
-    <h2>Get Author With ID</h2>
-    <div class="container">
-      <form id="author">
-        <input type="text" name="" id="authotQuery" />
-        <input type="submit" value="let's fetch" />
-      </form>
-      <div class="result">Fetch First</div>
-    </div>
-
     <h2>All Posts</h2>
-    <div class="container">
-      <form id="posts">
-        <input type="text" name="" id="postsQuery" />
-        <input type="submit" value="let's fetch" />
-      </form>
-      <div class="result">Fetch First</div>
-    </div>
-
-    <h2>Get Post with ID</h2>
-    <div class="container">
-      <form id="post">
-        <input type="text" name="" id="postQuery" />
-        <input type="submit" value="let's fetch" />
-      </form>
-      <div class="result">Fetch First</div>
-    </div>
-
-    <h2>Get All Post at Author</h2>
-    <div class="container">
-      <form id="authorspost">
-        <input type="text" name="" id="authorspostQuery" />
-        <input type="submit" value="let's fetch" />
-      </form>
-      <div class="result">Fetch First</div>
+    <div class="container" id="all-post-container">
+      <div class="post">
+        <h2>Post id: 2</h2>
+        <span>
+          <h2>Title:</h2>
+          <h2>Lorem, ipsum dolor.</h2>
+        </span>
+        <span>
+          <h2>content</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati
+            quidem fuga eos ipsum nemo magnam?
+          </p>
+        </span>
+        <span
+          ><h2>Author</h2>
+          <h2>Lorem, ipsum dolor.</h2>
+        </span>
+      </div>
     </div>
 
     <script>
       let authorsFormEl = document.getElementById("authors");
       let authorsResEl = document.getElementById("authorRes");
-
-      let authorFormEl = document.getElementById("author");
-      let authorQueryEl = document.getElementById("authorQuery");
-
-      let postsFormEl = document.getElementById("posts");
-      let postsQueryEl = document.getElementById("postsQuery");
-
-      let postFormEl = document.getElementById("post");
-      let postQueryEl = document.getElementById("postQuery");
-
-      let authorspostFormEl = document.getElementById("authorspost");
-      let authorspostQueryEl = document.getElementById("authorspostQuery");
+      let allPostContainerEl = document.getElementById("all-post-container");
 
       authorsFormEl.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -133,9 +124,50 @@
               .join(""); // Array'i tek bir string haline getiriyoruz.
           });
       });
-      authorsFormEl.addEventListener('reset', (e)=>{
-        authorsResEl.innerHTML= "Resetted"
-      })
+      authorsFormEl.addEventListener("reset", (e) => {
+        authorsResEl.innerHTML = "Resetted";
+      });
+
+      let renderPosts = (data) => {
+        console.log("render", data);
+        console.log(allPostContainerEl);
+        allPostContainerEl.innerHTML = data
+          .map((item) => {
+            return `<div class="post">
+              <h2>Post id: ${item.id}</h2>
+        <span>
+          <h2>Title:</h2>
+          <h2>${item.title}</h2>
+        </span>
+        <span>
+          <h2>content</h2>
+          <p>
+          ${item.content}
+          </p>
+        </span>
+        <span
+          ><h2>Author</h2>
+          <h2>${item.authorId}</h2>
+        </span>
+      </div>`;
+          })
+          .join("");
+      };
+
+      let getAllPostData = async () => {
+        try {
+          let url = "http://localhost:3000/posts";
+          let response = await fetch(url);
+          // console.log(response)
+          let data = await response.json();
+          console.log(data, "data");
+          renderPosts(data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getAllPostData();
     </script>
   </body>
 </html>
