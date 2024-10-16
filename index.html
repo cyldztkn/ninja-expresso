@@ -7,6 +7,7 @@
   </head>
   <body>
     <button id="buton">Fetch Data</button>
+    <button id="try">Fetch Data with try</button>
     <div id="output"></div>
 
     <script>
@@ -23,6 +24,20 @@
             resultEl.innerHTML = `Server'dan Gelen Cevap: ${res.message}<br>Status=${fetchStatus} `;
           });
       });
+
+      let fetchData = async () => {
+        console.log("clicked")
+        try {
+          let resopnse = await fetch("http://localhost:3000/");
+          console.log(resopnse);
+          let stringRes = await resopnse.json();
+          console.log(stringRes);
+        } catch {
+          console.log("err");
+        }
+      };
+
+      document.getElementById("try").addEventListener("click", fetchData);
     </script>
   </body>
 </html>

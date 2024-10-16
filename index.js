@@ -1,5 +1,9 @@
 const express = require("express");
+const cors = require("cors");
 const app = express();
+
+
+app.use(cors())
 
 // Basit bir middleware örneği
 const logger = (req, res, next) => {
@@ -17,7 +21,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.status(200).json({message: "fetch ok"});
 });
 // Bu, diğer tüm route'lar tanımlandıktan sonra kullanılmalıdır
 app.use(errorHandler);
