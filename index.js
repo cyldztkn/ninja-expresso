@@ -1,19 +1,19 @@
 const express = require('express');
 const app = express();
-const productRouter = express.Router();
-const colorRouter = express.Router();
 
-productRouter.get('/:productId', (req, res) => {
-    res.send(`Ürün: ${req.params.productId}`);
+// Basit bir middleware örneği
+const logger = (req, res, next) => {
+  console.log(`${req.method} ${req.url} at ${new Date().toISOString()}`);
+  next(); // Bir sonraki middleware'e veya route'a geçiş yap
+};
+
+// Tüm isteklerde logger middleware'ini kullan
+app.use(logger);
+
+app.get('/', (req, res) => {
+  res.send('Hello World');
 });
-
-colorRouter.get('/:colorId/product/:productName', (req, res) => {
-    res.send(`Renk ID: ${req.params.colorId}, Ürün Adı: ${req.params.productName}`);
-});
-
-app.use('/product', productRouter);
-app.use('/color', colorRouter);
 
 app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+  console.log('Server is running on http://localhost:3000');
 });
