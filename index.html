@@ -1,28 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      body {
+        background-color: #dbdbdd;
+        form {
+          display: flex;
+          gap: 12px;
+          input[type="text"] {
+            background-color: #dbdbdd;
+            outline: none;
+            border: 1px solid #00000025;
+            padding: 6px 12px;
+            border-radius: 4px;
+            max-width: 30%;
+          }
+          input[type="submit"]  {
+            border-radius: 4px;
+            /* padding: 12px 12px; */
+            background-color: #ffffff45;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #ffffff74;
+              box-shadow: 2px 2px 12px #00000028;
+            }
+          }
+          input[type="reset"]  {
+            border-radius: 4px;
+            /* padding: 12px 12px; */
+            background-color: #ffffff45;
+            border: none;
+            outline: none;
+            &:hover {
+              background-color: #ffffff74;
+              box-shadow: 2px 2px 12px #00000028;
+            }
+          }
+        }
+        .container {
+          border: 1px solid #00000025;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          padding: 40px 20px;
+          gap: 40px;
+        }
+        .result {
+          border: 1px solid #00000025;
+          flex: 1 1 60%;
+        }
+        h2 {
+          font-size: 16px;
+          color: #254829;
+        }
+      }
+    </style>
   </head>
   <body>
-    <button id="buton">Fetch Data</button>
-    <div id="output"></div>
+    <h2>All Authors</h2>
+    <div class="container">
+      <form id="authors">
+        <input type="submit" value="let's fetch" />
+        <input type="reset" value="Reset">
+      </form>
+      <div class="result" id="authorRes">Fetch First</div>
+    </div>
+
+    <h2>Get Author With ID</h2>
+    <div class="container">
+      <form id="author">
+        <input type="text" name="" id="authotQuery" />
+        <input type="submit" value="let's fetch" />
+      </form>
+      <div class="result">Fetch First</div>
+    </div>
+
+    <h2>All Posts</h2>
+    <div class="container">
+      <form id="posts">
+        <input type="text" name="" id="postsQuery" />
+        <input type="submit" value="let's fetch" />
+      </form>
+      <div class="result">Fetch First</div>
+    </div>
+
+    <h2>Get Post with ID</h2>
+    <div class="container">
+      <form id="post">
+        <input type="text" name="" id="postQuery" />
+        <input type="submit" value="let's fetch" />
+      </form>
+      <div class="result">Fetch First</div>
+    </div>
+
+    <h2>Get All Post at Author</h2>
+    <div class="container">
+      <form id="authorspost">
+        <input type="text" name="" id="authorspostQuery" />
+        <input type="submit" value="let's fetch" />
+      </form>
+      <div class="result">Fetch First</div>
+    </div>
 
     <script>
-      let buttonEl = document.getElementById("buton");
-      let resultEl = document.getElementById("output");
-      let fetchStatus;
-      buttonEl.addEventListener("click", () => {
-        fetch("http://localhost:3000/")
-          .then((res) => {
-            fetchStatus = res.status;
-            return res.json();
-          })
-          .then((res) => {
-            resultEl.innerHTML = `Server'dan Gelen Cevap: ${res.message}<br>Status=${fetchStatus} `;
+      let authorsFormEl = document.getElementById("authors");
+      let authorsResEl = document.getElementById("authorRes");
+
+      let authorFormEl = document.getElementById("author");
+      let authorQueryEl = document.getElementById("authorQuery");
+
+      let postsFormEl = document.getElementById("posts");
+      let postsQueryEl = document.getElementById("postsQuery");
+
+      let postFormEl = document.getElementById("post");
+      let postQueryEl = document.getElementById("postQuery");
+
+      let authorspostFormEl = document.getElementById("authorspost");
+      let authorspostQueryEl = document.getElementById("authorspostQuery");
+
+      authorsFormEl.addEventListener("submit", (e) => {
+        e.preventDefault();
+        fetch("http://localhost:3000/authors")
+          .then((res) => res.json())
+          .then((authors) => {
+            console.log(authors);
+            authorsResEl.innerHTML = authors
+              .map((item) => `<h2>${item.name}</h2>`)
+              .join(""); // Array'i tek bir string haline getiriyoruz.
           });
       });
+      authorsFormEl.addEventListener('reset', (e)=>{
+        authorsResEl.innerHTML= "Resetted"
+      })
     </script>
   </body>
 </html>
