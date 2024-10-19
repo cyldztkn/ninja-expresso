@@ -2,9 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Post = require("./models/post");
+const User = require("./models/user.js");
 const addNewPost = require("./addPost");
 const addNewUser = require("./addUser.js");
-console.log(addNewUser);
 require("dotenv").config();
 
 // Db Connect
@@ -55,7 +55,7 @@ app.post("/addPost", (req, res) => {
 });
 
 // Add new User
-app.post("/user", (req, res) => {
+app.post("/user", async (req, res) => {
   const { name, email } = req.body;
 
   let newUser = { name, email };
@@ -65,9 +65,66 @@ app.post("/user", (req, res) => {
     return res.status(400).json({ message: "isim ve mail zorunludur" });
   }
 
-  addNewUser(newUser);
+  await addNewUser(newUser);
   res.status(200).json({ message: "Kullanıcı Başarıyla eklendi" });
 });
+
+// Get All User
+app.get("/posts", async (req, res) => {
+  try {
+    const posts = await Post.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Postlar getirilemedi", error });
+  }
+});
+
+// Get Post By ID
+app.get("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = await Post.findById(id);
+    if (!post) {
+      res.status(404).json(error);
+    }
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+app.put("/post/:id", async (req, res) => {
+  const { id } = req.params;
+  const { title, content, authorId } = req.body;
+  try {
+    const post = await Post.findByIdAndUpdate(
+      id,
+      { title, content, authorId },
+      { new: true, runValidators: true }
+    );
+    if (!post) {
+      return res.status(404).json("post yok");
+    }
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+});
+
+// Delete Post
+app.delete('/post/:id', async(req, res)=>{
+  const {id} = req.params;
+  try {
+    const post = await User.findByIdAndDelete(id);
+    if(!post){  
+      return res.status(404).json({message : "kullanıcı yok"})
+    }
+
+    res.status(200).json({ message : "Kullanıcı silindi", user: post})
+  } catch (error) {
+    res.status(500).json(error.message)
+    
+  } 
+})
 
 // Sunucuyu dinlemeye başla
 app.listen(PORT, () => {
